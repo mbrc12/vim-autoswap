@@ -51,16 +51,16 @@ augroup END
 function! AS_HandleSwapfile (filename, swapname)
 
 	" Is file already open in another Vim session in some other window?
-	let active_window = AS_DetectActiveWindow(a:filename, a:swapname)
+	" let active_window = AS_DetectActiveWindow(a:filename, a:swapname)
 
-	" If so, go there instead and terminate this attempt to open the file...
-	if (strlen(active_window) > 0)
-		call AS_DelayedMsg('Switched to existing session in another window')
-		call AS_SwitchToActiveWindow(active_window)
-		let v:swapchoice = 'q'
+	" " If so, go there instead and terminate this attempt to open the file...
+	" if (strlen(active_window) > 0)
+	" 	call AS_DelayedMsg('Switched to existing session in another window')
+	" 	call AS_SwitchToActiveWindow(active_window)
+	" 	let v:swapchoice = 'q'
 
 	" Otherwise, if swapfile is older than file itself, just get rid of it...
-	elseif getftime(v:swapname) < getftime(a:filename)
+	if getftime(v:swapname) < getftime(a:filename)
 		call AS_DelayedMsg('Old swapfile detected... and deleted')
 		call delete(v:swapname)
 		let v:swapchoice = 'e'
